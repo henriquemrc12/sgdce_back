@@ -40,7 +40,7 @@ public class UserModel implements Serializable {
     @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.")
     private String phone;
 
-    private boolean active;
+    private Boolean active;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
@@ -62,7 +62,7 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<SaleModel> sale = new ArrayList<>();
 
-    public UserModel(Long id,@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, boolean active, Date updatedAt, Date createdAt, List<RoleModel> roles) {
+    public UserModel(Long id,@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, Boolean active, Date updatedAt, Date createdAt, List<RoleModel> roles) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -127,11 +127,11 @@ public class UserModel implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

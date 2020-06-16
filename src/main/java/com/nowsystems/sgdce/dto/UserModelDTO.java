@@ -7,6 +7,8 @@ import java.util.List;
 
 public class UserModelDTO {
 
+    private Long id;
+
     @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.")
     private String name;
 
@@ -26,6 +28,8 @@ public class UserModelDTO {
     private String phone;
 
     private List<Long> roles;
+
+    private Boolean active;
 
     public UserModelDTO(@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, List<Long> roles) {
         this.name = name;
@@ -84,5 +88,21 @@ public class UserModelDTO {
 
     public void setRoles(List<Long> roles) {
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

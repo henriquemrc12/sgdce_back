@@ -2,6 +2,7 @@ package com.nowsystems.sgdce.servicies;
 
 import com.amazonaws.services.identitymanagement.model.User;
 import com.nowsystems.sgdce.dto.UserModelDTO;
+import com.nowsystems.sgdce.exception.ApiException;
 import com.nowsystems.sgdce.models.RoleModel;
 import com.nowsystems.sgdce.models.UserModel;
 import com.nowsystems.sgdce.repositories.RoleRepository;
@@ -50,6 +51,47 @@ public class UserService {
             return repo.save(userModel);
         }catch (Exception e){
             throw e;
+        }
+    }
+
+    @Transactional
+    public UserModel update(UserModelDTO dto){
+        try{
+
+            UserModel userModel = findById(dto.getId());
+
+            if(userModel == null) throw new ApiException("Não foi possível encontrar Usuário com ID informado " + dto.getId());
+
+            if(dto.getName() != null) userModel.setName(dto.getName());
+            if(dto.getCpf() != null) userModel.setCpf(dto.getCpf());
+            if(dto.getEmail() != null) userModel.setEmail(dto.getEmail());
+            if(dto.getPassword() != null) userModel.setPassword(dto.getPassword());
+            if(dto.getPhone() != null) userModel.setPhone(dto.getPhone());
+            if(dto.getRoles()!=null){
+                List<RoleModel> roles = roleRepository.findAllByIds(dto.getRoles());
+                userModel.setRoles(roles);
+            }
+            if(dto.getActive()!= null) userModel.setActive(dto.getActive());
+            userModel.setUpdatedAt(new Date());
+            return repo.save(userModel);
+        }catch (ApiException e){
+            throw e;
+        }catch (Exception e){
+            throw new ApiException("Não foi possível atualizar o Usuário.");
+        }
+    }
+
+    public boolean turnActive(Long id){
+        try{
+            UserModel userModel = findById(id);
+            userModel.setActive(userModel.getActive()?false:true);
+            repo.save(userModel);
+            return true;
+        }catch (Exception e){
+            UserModel userModel = findById(id);
+            String active = userModel.getActive()?"Desativar":"Ativar";
+            e.printStackTrace();
+            throw new ApiException("Não foi possível "+ active + " o Usuário.");
         }
     }
 }
