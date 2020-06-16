@@ -62,7 +62,8 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<SaleModel> sale = new ArrayList<>();
 
-    public UserModel(@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, boolean active, Date updatedAt, Date createdAt, List<RoleModel> roles, List<SaleModel> sale) {
+    public UserModel(Long id,@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, boolean active, Date updatedAt, Date createdAt, List<RoleModel> roles) {
+        this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.email = email;
@@ -72,8 +73,9 @@ public class UserModel implements Serializable {
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.roles = roles;
-        this.sale = sale;
     }
+
+
 
     public UserModel(){}
 
