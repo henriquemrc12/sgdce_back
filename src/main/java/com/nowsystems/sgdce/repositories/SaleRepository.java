@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SaleRepository extends JpaRepository<SaleModel, Long> {
 
-    SaleModel findSaleModelBySaleNumber(String number);
+    SaleModel findSaleModelBySaleNumber(Integer number);
 
     List<SaleModel> findAllByDateSale(Date date);
 }

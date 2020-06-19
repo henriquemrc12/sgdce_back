@@ -12,12 +12,9 @@ public class UserModelDTO {
     @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.")
     private String name;
 
-    @Column(unique = true)
     @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.")
     private String cpf;
 
-    @Basic(optional = false)
-    @Column(unique = true)
     @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.")
     private String email;
 
