@@ -4,6 +4,7 @@ import com.nowsystems.sgdce.dto.UserModelDTO;
 import com.nowsystems.sgdce.exception.ApiException;
 import com.nowsystems.sgdce.models.PaymentMethodModel;
 import com.nowsystems.sgdce.models.UserModel;
+import com.nowsystems.sgdce.models.logErrorsModel;
 import com.nowsystems.sgdce.repositories.PaymentMethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,20 @@ public class PaymentMethodService {
     @Autowired
     private PaymentMethodRepository repo;
 
+    @Autowired
+    private LogErrorsService logErrorsService;
     public List<PaymentMethodModel> findAll() {
         try {
             return repo.findAll();
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("PaymentMethod");
+            log.setMethodName("findAll");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -31,6 +42,14 @@ public class PaymentMethodService {
             Optional<PaymentMethodModel> obj = repo.findById(id);
             return obj.orElse(null);
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("PaymentMethod");
+            log.setMethodName("findById");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -45,6 +64,14 @@ public class PaymentMethodService {
             p.setActive(true);
             return repo.save(p);
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("PaymentMethod");
+            log.setMethodName("create");
+            logErrorsService.create(log);
             throw new ApiException("Não foi possível cadastrar o método de pagamento.");
         }
 

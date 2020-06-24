@@ -5,6 +5,7 @@ import com.nowsystems.sgdce.dto.UserModelDTO;
 import com.nowsystems.sgdce.exception.ApiException;
 import com.nowsystems.sgdce.models.RoleModel;
 import com.nowsystems.sgdce.models.UserModel;
+import com.nowsystems.sgdce.models.logErrorsModel;
 import com.nowsystems.sgdce.repositories.RoleRepository;
 import com.nowsystems.sgdce.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,22 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+
+    @Autowired
+    private LogErrorsService logErrorsService;
+
     public List<UserModel> findAll() {
         try {
             return repo.findAll();
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("User");
+            log.setMethodName("findAll");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -37,6 +50,14 @@ public class UserService {
             Optional<UserModel> obj = repo.findById(id);
             return obj.orElse(null);
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("User");
+            log.setMethodName("findById");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -50,6 +71,14 @@ public class UserService {
 
             return repo.save(userModel);
         }catch (Exception e){
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("User");
+            log.setMethodName("create");
+            logErrorsService.create(log);
             throw e;
         }
     }
@@ -77,6 +106,14 @@ public class UserService {
         }catch (ApiException e){
             throw e;
         }catch (Exception e){
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("User");
+            log.setMethodName("update");
+            logErrorsService.create(log);
             throw new ApiException("Não foi possível atualizar o Usuário.");
         }
     }
@@ -90,7 +127,14 @@ public class UserService {
         }catch (Exception e){
             UserModel userModel = findById(id);
             String active = userModel.getActive()?"Desativar":"Ativar";
-            e.printStackTrace();
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("User");
+            log.setMethodName("turnActive");
+            logErrorsService.create(log);
             throw new ApiException("Não foi possível "+ active + " o Usuário.");
         }
     }

@@ -17,11 +17,19 @@ public class logErrorsModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String companyName;
+
     private Date date;
 
     private String tableName;
 
     private String cause;
+
+    private String message;
+
+    private Boolean active;
+
+    private String methodName;
 
     public logErrorsModel() {
     }
@@ -56,5 +64,37 @@ public class logErrorsModel implements Serializable {
 
     public void setCause(String cause) {
         this.cause = cause;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -5,6 +5,7 @@ import com.nowsystems.sgdce.exception.ApiException;
 import com.nowsystems.sgdce.models.PaymentMethodModel;
 import com.nowsystems.sgdce.models.SaleModel;
 import com.nowsystems.sgdce.models.UserModel;
+import com.nowsystems.sgdce.models.logErrorsModel;
 import com.nowsystems.sgdce.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -28,10 +29,21 @@ public class SaleService {
     @Autowired
     private PaymentMethodService paymentMethodService;
 
+    @Autowired
+    private LogErrorsService logErrorsService;
+
     public List<SaleModel> findAll() {
         try {
             return repo.findAll();
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("Sale");
+            log.setMethodName("findAll");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -41,6 +53,14 @@ public class SaleService {
             Optional<SaleModel> obj = repo.findById(id);
             return obj.orElse(null);
         } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("Sale");
+            log.setMethodName("findById");
+            logErrorsService.create(log);
             return null;
         }
     }
@@ -74,6 +94,13 @@ public class SaleService {
             throw e;
         }catch (Exception e){
 
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("Sale");
+            log.setMethodName("create");
+            logErrorsService.create(log);
             throw new ApiException("Não foi possível cadastrar a venda. Contate o suporte do sistema.");
         }
     }

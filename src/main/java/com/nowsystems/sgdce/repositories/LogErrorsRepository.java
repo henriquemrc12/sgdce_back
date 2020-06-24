@@ -1,4 +1,8 @@
 package com.nowsystems.sgdce.repositories;
 
-public interface LogErrorsRepository {
+import com.nowsystems.sgdce.models.PaymentMethodModel;
+import com.nowsystems.sgdce.models.logErrorsModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LogErrorsRepository extends JpaRepository<logErrorsModel, Long> {
 }
