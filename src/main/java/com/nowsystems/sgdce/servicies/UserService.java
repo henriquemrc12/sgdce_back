@@ -1,6 +1,5 @@
 package com.nowsystems.sgdce.servicies;
 
-import com.amazonaws.services.identitymanagement.model.User;
 import com.nowsystems.sgdce.dto.UserModelDTO;
 import com.nowsystems.sgdce.exception.ApiException;
 import com.nowsystems.sgdce.models.RoleModel;

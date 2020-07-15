@@ -8,7 +8,6 @@ import com.nowsystems.sgdce.models.UserModel;
 import com.nowsystems.sgdce.models.logErrorsModel;
 import com.nowsystems.sgdce.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

@@ -21,6 +21,7 @@ public class PaymentMethodService {
 
     @Autowired
     private LogErrorsService logErrorsService;
+
     public List<PaymentMethodModel> findAll() {
         try {
             return repo.findAll();
@@ -74,7 +75,48 @@ public class PaymentMethodService {
             logErrorsService.create(log);
             throw new ApiException("Não foi possível cadastrar o método de pagamento.");
         }
-
-
     }
+
+    @Transactional
+    public PaymentMethodModel update(PaymentMethodModel paymentMethodModel) {
+        try {
+
+            PaymentMethodModel p = findById(paymentMethodModel.getId());
+            if(paymentMethodModel.getActive()!=null) p.setActive(paymentMethodModel.getActive());
+            if(paymentMethodModel.getName()!=null) p.setName(paymentMethodModel.getName());
+            return repo.save(p);
+
+        } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("PaymentMethod");
+            log.setMethodName("create");
+            logErrorsService.create(log);
+            throw new ApiException("Não foi possível cadastrar o método de pagamento.");
+        }
+    }
+
+    @Transactional
+    public Boolean delete(Long id) {
+        try {
+            PaymentMethodModel p = findById(id);
+            repo.delete(p);
+            return true;
+        } catch (Exception e) {
+
+            logErrorsModel log = new logErrorsModel();
+            log.setCause(e.getCause().toString());
+            log.setMessage(e.getMessage());
+            log.setCompanyName("Default");
+            log.setTableName("PaymentMethod");
+            log.setMethodName("create");
+            logErrorsService.create(log);
+            throw new ApiException("Não foi possível cadastrar o método de pagamento.");
+        }
+    }
+
+
 }
