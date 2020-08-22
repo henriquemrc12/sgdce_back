@@ -34,6 +34,8 @@ public class SaleModel implements Serializable {
             @JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<ProductModel> products = new ArrayList<>();
 
+
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_sale")
     private Date dateSale;

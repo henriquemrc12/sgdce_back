@@ -62,6 +62,10 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<SaleModel> sale = new ArrayList<>();
 
+    @JsonBackReference("user_roles_reference")
+    @ManyToMany(mappedBy = "allowedUsers")
+    private List<CashierModel> cashier = new ArrayList<>();
+
     public UserModel(Long id,@Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String name, @Size(max = 11, message = "O campo não pode ter mais que 11 caracteres.") String cpf, @Size(max = 255, message = "O campo não pode ter mais que 255 caracteres.") String email, @Size(max = 255, message = "O campo não pode ter mais que 12 caracteres.") String password, @Size(max = 12, message = "O campo não pode ter mais que 12 caracteres.") String phone, Boolean active, Date updatedAt, Date createdAt, List<RoleModel> roles) {
         this.id = id;
         this.name = name;
@@ -165,5 +169,13 @@ public class UserModel implements Serializable {
 
     public void setSale(List<SaleModel> sale) {
         this.sale = sale;
+    }
+
+    public List<CashierModel> getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(List<CashierModel> cashier) {
+        this.cashier = cashier;
     }
 }

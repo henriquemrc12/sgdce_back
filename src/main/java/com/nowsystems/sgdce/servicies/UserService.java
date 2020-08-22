@@ -7,7 +7,11 @@ import com.nowsystems.sgdce.models.UserModel;
 import com.nowsystems.sgdce.models.logErrorsModel;
 import com.nowsystems.sgdce.repositories.RoleRepository;
 import com.nowsystems.sgdce.repositories.UserRepository;
+import com.nowsystems.sgdce.utils.CustomSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,10 +28,14 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-
     @Autowired
     private LogErrorsService logErrorsService;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private CustomSecurityConfig customSecurityConfig;
     public List<UserModel> findAll() {
         try {
             return repo.findAll();
@@ -65,19 +73,10 @@ public class UserService {
     public UserModel create(UserModelDTO dto) {
         try {
             List<RoleModel> roles = roleRepository.findAllByIds(dto.getRoles());
-
-            UserModel userModel = new UserModel(null,dto.getName(),dto.getCpf(),dto.getEmail(),dto.getPassword(),dto.getPhone(),true,new Date(), new Date(),roles);
-
+            String password = encoder.encode(dto.getPassword());
+            UserModel userModel = new UserModel(null,dto.getName(),dto.getCpf(),dto.getEmail(),customSecurityConfig.passwordEncoder().encode(dto.getPassword()),dto.getPhone(),true,new Date(), new Date(),roles);
             return repo.save(userModel);
         }catch (Exception e){
-
-            logErrorsModel log = new logErrorsModel();
-            log.setCause(e.getCause().toString());
-            log.setMessage(e.getMessage());
-            log.setCompanyName("Default");
-            log.setTableName("User");
-            log.setMethodName("create");
-            logErrorsService.create(log);
             throw e;
         }
     }

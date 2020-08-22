@@ -41,13 +41,8 @@ public class PaymentMethodController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        UserModel r = paym.findById(id);
+        PaymentMethodModel r = paymentMethodService.findById(id);
         return ResponseEntity.ok(r);
     }
 
-    @PatchMapping(value = "/active/{id}")
-    public ResponseEntity<?> active(@PathVariable Long id) {
-        Boolean r = userService.turnActive(id);
-        return ResponseEntity.ok(r);
-    }
 }
